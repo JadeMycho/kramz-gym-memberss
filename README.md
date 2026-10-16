@@ -2,6 +2,8 @@
 
 A browser-based gym membership tracker with QR check-in, payment history, and revenue reports.
 
+Open the [published app](https://jademycho.github.io/kramz-gym-memberss/) to use the latest deployed version.
+
 When recording a payment, choose **Renew now** or **Pay in advance**. The renewal start date is selectable and defaults to today if the membership has expired, or the day after its current expiry if it is still active. Advance payment lets you choose a future start date. The due date updates automatically based on the selected start date and plan, and the app keeps renewals distinct from advance payments.
 
 Future-dated memberships are shown under **Advanced payment**, with the number of days until their start date. Remaining days are counted from the membership start date, not from the date the payment was recorded.
