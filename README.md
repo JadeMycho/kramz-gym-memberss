@@ -12,9 +12,11 @@ Member payment history shows the selected renewal start date. The Revenue report
 
 ## Run locally
 
-Open `gym-members.html` with the VS Code Live Server extension, or serve this folder from any local web server. Use `localhost` or HTTPS for camera access.
+Open `login.html` with the VS Code Live Server extension, or serve this folder from any local web server. Use `localhost` or HTTPS for camera access.
 
 ## Data and privacy
+
+Open `login.html` to sign in on a separate page. The first time, create an admin PIN; later sign-ins use that same browser-local PIN used for the Revenue report. Successful sign-in opens `gym-members.html`; signing out returns to the login page. This is a client-side privacy gate only and is not secure authentication.
 
 Member and sales data are stored in IndexedDB in the current browser and are not synchronized between devices. Use **Download backup** to export members and sales, and **Restore backup** to import them on another device.
 Use **Clear all data** inside the Revenue window to permanently remove all members and payment/revenue history from the current browser. This requires the owner revenue PIN, a separate maker PIN, and a final deletion confirmation. The maker PIN is set on the first clear attempt and stored as a browser-local hash. This is only a basic client-side privacy gate, not secure authorization.

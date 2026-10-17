@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin sign in · Kramz Gym</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<section class="login-screen" aria-labelledby="loginTitle">
+  <div class="login-card">
+    <img class="login-logo" src="kramz-logo.png" alt="Kramz Fitness Hub logo">
+    <p class="eyebrow">KRAMZ FITNESS HUB</p>
+    <h1 id="loginTitle">Admin sign in</h1>
+    <p id="loginMessage" class="login-message"></p>
+    <form id="loginForm">
+      <div class="field"><label for="loginPin">Admin PIN</label><input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="12" required></div>
+      <div class="field" id="loginConfirmField" hidden><label for="loginConfirmPin">Confirm admin PIN</label><input id="loginConfirmPin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="12"></div>
+      <p id="loginError" class="revenue-error" role="alert" hidden></p>
+      <button class="primary login-submit" id="loginSubmit" type="submit">Sign in</button>
+    </form>
+    <p class="revenue-security-note">This PIN is stored in this browser and is only a basic privacy gate, not secure authentication.</p>
+  </div>
+</section>
+<script src="data.js" defer></script>
+<script src="login.js" defer></script>
+</body>
+</html>

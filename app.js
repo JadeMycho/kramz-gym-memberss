@@ -1,5 +1,26 @@
 async function startApp(){
+const appMain=$('appMain');
+try{
+  if(sessionStorage.getItem(APP_SESSION_KEY)!=='1'){
+    location.replace('login.html');
+    return;
+  }
+}catch(e){
+  appMain.hidden=false;
+  $('empty').hidden=false;
+  $('empty').textContent='Could not check the admin session: '+e.message;
+  return;
+}
 await initializeStorage();
+appMain.hidden=false;
+$('logout').onclick=()=>{
+  try{
+    sessionStorage.removeItem(APP_SESSION_KEY);
+    location.replace('login.html');
+  }catch(e){
+    alert('Could not end the admin session: '+e.message);
+  }
+};
 $('asof').value=iso(new Date());
 $('asof').onchange=render;
 $('today').onclick=()=>{$('asof').value=iso(new Date());render()};
@@ -183,6 +204,18 @@ async function digestPin(pin){
   return Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,'0')).join('');
 }
 
+async function verifyAdminPin(pin,confirmation){
+  if(!/^\d{4,12}$/.test(pin))throw new Error('Enter a PIN containing 4 to 12 digits.');
+  const stored=localStorage.getItem(PIN_KEY);
+  const digest=await digestPin(pin);
+  if(stored){
+    if(digest!==stored)throw new Error('Incorrect PIN. Try again.');
+    return;
+  }
+  if(pin!==confirmation)throw new Error('The PIN entries do not match.');
+  localStorage.setItem(PIN_KEY,digest);
+}
+
 function setRevenueUnlocked(unlocked){
   revenueUnlocked=unlocked;
   revenueAuth.hidden=unlocked;
@@ -235,33 +268,10 @@ $('revenue').onclick=()=>{
 };
 $('closeRevenue').onclick=()=>revenueDlg.close();
 $('adminLogin').onclick=async()=>{
-  const pin=$('adminPin').value,error=$('revenueAuthError');
+  const error=$('revenueAuthError');
   error.hidden=true;
-  let stored;
   try{
-    stored=localStorage.getItem(PIN_KEY);
-  }catch(e){
-    error.textContent='Could not access browser storage: '+e.message;
-    error.hidden=false;return;
-  }
-  if(!/^\d{4,12}$/.test(pin)){
-    error.textContent='Enter a PIN containing 4 to 12 digits.';
-    error.hidden=false;return;
-  }
-  try{
-    const digest=await digestPin(pin);
-    if(stored){
-      if(digest!==stored){
-        error.textContent='Incorrect PIN. Try again.';
-        error.hidden=false;return;
-      }
-    }else{
-      if(pin!==$('confirmPin').value){
-        error.textContent='The PIN entries do not match.';
-        error.hidden=false;return;
-      }
-      localStorage.setItem(PIN_KEY,digest);
-    }
+    await verifyAdminPin($('adminPin').value,$('confirmPin').value);
     setRevenueUnlocked(true);
   }catch(e){
     error.textContent='Could not verify or save the PIN: '+e.message;
@@ -440,6 +450,7 @@ scanDlg.addEventListener('close',stopQrScan);
 
 startApp().catch(error=>{
   console.error('Could not initialize the gym members app.',error);
+  $('appMain').hidden=false;
   $('empty').hidden=false;
   $('empty').textContent='Could not open the browser database: '+error.message+' Your saved data has not been changed.';
   alert('Could not open the browser database: '+error.message+' Your saved data has not been changed.');

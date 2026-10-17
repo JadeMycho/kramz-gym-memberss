@@ -1,4 +1,4 @@
-const KEY='gymMembers.v1', SALES_KEY='gymSales.v1', PIN_KEY='gymAdminPin.v1', MAKER_PIN_KEY='gymMakerPin.v1';
+const KEY='gymMembers.v1', SALES_KEY='gymSales.v1', PIN_KEY='gymAdminPin.v1', MAKER_PIN_KEY='gymMakerPin.v1', APP_SESSION_KEY='gymAdminSession.v1';
 const DATABASE_NAME='gymMembersDatabase', DATABASE_VERSION=1, DATA_STORE='appData';
 const PLAN={session:'Single session','15':'15 days','30':'1 month',promo:'1 month + free jersey'};
 const PRICE={session:50,'15':250,'30':500,promo:650};
